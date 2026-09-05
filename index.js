@@ -9,11 +9,10 @@ app.use(cors())
 app.use(express.json())
 
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    password: process.env.DB_PASSWORD,
-    database: 'likeme',
-    port: 5432
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
 })
 
 app.get('/posts', async (req, res) => {
@@ -30,7 +29,7 @@ app.get('/', (req, res) => {
     res.send('estamos al aire')
 })
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log('Servidor escuchando en http://localhost:3000')
 })
 
