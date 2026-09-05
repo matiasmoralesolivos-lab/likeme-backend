@@ -1,0 +1,51 @@
+require('dotenv').config()
+const express = require('express')
+const cors = require('cors')
+const { Pool } = require('pg')
+
+const app = express()
+
+app.use(cors())
+app.use(express.json())
+
+const pool = new Pool({
+    user: 'postgres',
+    host: 'localhost',
+    password: process.env.DB_PASSWORD,
+    database: 'likeme',
+    port: 5432
+})
+
+app.get('/posts', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM posts')
+        res.json(result.rows)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Error al obtener los posts')
+    }
+})
+
+app.get('/', (req, res) => {
+    res.send('estamos al aire')
+})
+
+app.listen(3000, () => {
+    console.log('Servidor escuchando en http://localhost:3000')
+})
+
+app.post('/posts', async (req, res) => {
+    try {
+        const { titulo, url, descripcion } = req.body
+
+        const result = await pool.query(
+            'INSERT INTO posts (titulo, img, descripcion, likes) VALUES ($1, $2, $3, $4) RETURNING *',
+            [titulo, url, descripcion, 0]
+        )
+
+        res.json(result.rows[0])
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Error al guardar el post')
+    }
+})
