@@ -1,43 +1,72 @@
 # Like Me - Backend
 
-https://likeme-frontend-rtxh.onrender.com/
+URL ---> https://likeme-frontend-rtxh.onrender.com/
 
-Backend de la aplicación **Like Me**, desarrollado con Node.js, Express y PostgreSQL.
+Backend de la aplicación Like Me, desarrollado con Node.js, Express y PostgreSQL.
+
+La API permite crear, consultar, dar likes y eliminar publicaciones.
 
 ## Tecnologías
 
-* Node.js
-* Express
-* PostgreSQL
-* pg
-* CORS
-
-## Funcionalidades
-
-* Obtener publicaciones desde PostgreSQL.
-* Crear nuevas publicaciones.
-* Conectar el servidor con una base de datos PostgreSQL.
+- Node.js
+- Express
+- PostgreSQL
+- pg
+- CORS
 
 ## Instalación
 
-```bash
+Clonar el repositorio y entrar a la carpeta del proyecto:
+
+git clone https://github.com/matiasmoralesolivos-lab/likeme-backend.git
+
+cd likeme-backend
+
+Instalar las dependencias:
+
 npm install
-```
 
-## Ejecutar
+## Configuración
 
-```bash
+Crear un archivo .env en la raíz del proyecto y agregar la conexión a PostgreSQL:
+
+DATABASE_URL=tu_conexion_a_postgresql
+
+No subir el archivo .env a GitHub.
+
+## Ejecución
+
+Para iniciar el servidor:
+
 npm start
-```
 
 Para desarrollo:
 
-```bash
 npm run dev
-```
 
-## Rutas
+El servidor se ejecutará en el puerto configurado o, en caso de ejecutarse localmente, en el puerto 3000.
 
-* `GET /posts` → Obtiene todas las publicaciones.
-* `POST /posts` → Crea una nueva publicación.
+## Rutas de la API
 
+| Método | Ruta | Función |
+|---|---|---|
+| GET | /posts | Obtener todas las publicaciones |
+| POST | /posts | Crear una publicación |
+| PUT | /posts/like/:id | Agregar un like |
+| DELETE | /posts/:id | Eliminar una publicación |
+
+## Uso
+
+El backend recibe las solicitudes del frontend y realiza las operaciones correspondientes en PostgreSQL.
+
+Las rutas también pueden probarse utilizando Thunder Client.
+
+## Base de datos
+
+La aplicación utiliza una tabla posts con los siguientes campos:
+
+- id
+- titulo
+- img
+- descripcion
+- likes
